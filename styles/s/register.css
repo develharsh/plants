@@ -1,0 +1,28 @@
+.s_register_main_div {
+  margin-top: 2em;
+  /* border: 1px solid slateblue; */
+  align-items: center;
+}
+
+.s_register_tile {
+  width: 32em;
+}
+
+.s_register_input_div {
+  align-items: center;
+  /* height: 20em; */
+}
+
+/* tab */
+@media (min-width: 40rem) {
+  .s_register_main_div {
+    margin-top: 1em;
+  }
+}
+
+/*lap */
+@media (min-width: 80rem) {
+  .s_register_main_div {
+    margin-top: 2em;
+  }
+}

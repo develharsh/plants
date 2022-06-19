@@ -1,0 +1,33 @@
+.addPlant_main_div {
+  margin-top: 2em;
+  /* border: 1px solid slateblue; */
+  align-items: center;
+}
+
+.addplantTile {
+  width: 32em;
+}
+
+.addPlant_input_div {
+  align-items: center;
+  /* height: 20em; */
+}
+
+.addPlantPreviewImg {
+  width: 60px;
+  object-fit: cover;
+}
+
+/* tab */
+@media (min-width: 40rem) {
+  .addPlant_main_div {
+    margin-top: 1em;
+  }
+}
+
+/*lap */
+@media (min-width: 80rem) {
+  .addPlant_main_div {
+    margin-top: 2em;
+  }
+}

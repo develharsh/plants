@@ -1,0 +1,31 @@
+renovate add plants frontend, backend delete images when deleted, automate with user token, mongoose slug
+Get Products Page
+View Specific product
+Add to Cart
+
+Cart
+Checkout with Payment Gateway and SMS to admins and supplier
+
+Supplier Dashboard
+Supplier Edit, Delete View Product
+Supplier My orders
+Supplier Order VIew(details and invoice) and update status
+
+Query Request Page
+Admin Login
+Admin Dash analitics
+Admin View Suppliers
+Admin View Orders
+Admin add gardener
+
+Home Page
+About Page
+Footer Renovation
+Header Renovation
+FABS
+
+Domain Buy
+Logo
+Deploy
+Testing end to end.
+Google Ads

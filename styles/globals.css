@@ -1,0 +1,11 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url("./Home.module.css");
+@import url("./login.css");
+@import url("./s/login.css");
+@import url("./s/register.css");
+@import url("./register.css");
+@import url("./components/design/GlobalLoading.css");
+@import url("./s/add/plant.css");
