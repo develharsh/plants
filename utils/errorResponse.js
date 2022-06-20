@@ -4,8 +4,8 @@ export default (error) => {
   if (error.code === 11000) {
     //error by mongodb
     //violation of unique:true
-    if (error.index > -1) message = "Phone already exists";
-    else message = error.message;
+    message = error.message;
+    message = `${message.split('{ : "')[1].replace(`" }`, "")} already exists`;
   } else if (error.errors) {
     //error by mongoose
     code = 400;

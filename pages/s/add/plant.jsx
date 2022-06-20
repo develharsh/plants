@@ -3,9 +3,12 @@ import axios from "axios";
 import { useContext, useState } from "react";
 import { DataContext } from "../../../store/globalstate";
 import { ACTIONS } from "../../../store/actions";
-// import Link from "next/link";
+import cookie from "js-cookie";
+import Link from "next/link";
+import { useRouter } from "next/router";
 
 function Plant({ categories, tags }) {
+  const router = useRouter();
   const { state, dispatch } = useContext(DataContext);
   const [images, setImages] = useState([]);
   const [previews, setPreviews] = useState([]);
@@ -81,13 +84,18 @@ function Plant({ categories, tags }) {
     images.forEach((img) => myForm.append("images", img));
     values.tags.forEach((tag) => myForm.append("tags", tag));
     try {
+      const token = cookie.get("token");
       const response = await axios({
         method: "POST",
         url: `${process.env.baseUrl}/api/s/product`,
+        headers: {
+          "x-access-token": token,
+        },
         data: myForm,
       });
       dispatch({ type: ACTIONS.LOADING, payload: false });
       if (response.data.success) {
+        router.push("/s");
         dispatch({
           type: ACTIONS.NOTIFY,
           payload: { bg: "success", message: response.data.message },
@@ -106,7 +114,11 @@ function Plant({ categories, tags }) {
     <>
       <div className="flex flex-wrap justify-evenly addPlant_main_div">
         <div>
-          <img src="/signupBg.png" alt="" className="addplantTile" />
+          <img
+            src="https://assets-news.housing.com/news/wp-content/uploads/2019/12/13172841/Rent-a-plant-service-An-easy-to-way-to-add-greenery-to-a-space-FB-1200x700-compressed.jpg"
+            alt=""
+            className="addplantTile"
+          />
         </div>
         <div className="shadow-2xl rounded p-7 addPlant_input_div">
           <h1 className="mb-3 font-medium leading-tight text-2xl">
@@ -121,7 +133,7 @@ function Plant({ categories, tags }) {
             name="title"
             value={values.title}
             onChange={handleChange}
-            placeholder="Title"
+            placeholder="Title (Required)"
           />
           <label
             htmlFor="formFileMultiple"
@@ -181,7 +193,7 @@ function Plant({ categories, tags }) {
             focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none
           "
             rows="3"
-            placeholder="Description"
+            placeholder="Description (Required)"
           ></textarea>
         </div>
       </div>
@@ -193,7 +205,7 @@ function Plant({ categories, tags }) {
             name="inStock"
             value={values.inStock}
             onChange={handleChange}
-            placeholder="Available Stock"
+            placeholder="Available Stock (Required)"
           />
         </div>
         <div>
@@ -203,7 +215,7 @@ function Plant({ categories, tags }) {
             name="cost"
             value={values.cost}
             onChange={handleChange}
-            placeholder="Cost Without Discount"
+            placeholder="Cost Without Discount (Required)"
           />
         </div>
         <div>
@@ -213,7 +225,7 @@ function Plant({ categories, tags }) {
             name="disCost"
             value={values.disCost}
             onChange={handleChange}
-            placeholder="Cost After Discount"
+            placeholder="Cost After Discount (Required)"
           />
         </div>
         <div>
@@ -223,7 +235,7 @@ function Plant({ categories, tags }) {
             name="productId"
             value={values.productId}
             onChange={handleChange}
-            placeholder="Product Id(Only visible to you)"
+            placeholder="Product Id (Optional)"
           />
         </div>
         <Categories categories={categories} handleSelect={handleSelect} />
@@ -296,7 +308,7 @@ function Categories({ categories, handleSelect }) {
         my-3
         focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
       >
-        <option value="">*Category</option>
+        <option value="">*Category (Required)</option>
         {categories.map((each, idx) => (
           <option key={idx} value={each._id}>
             {each.title}

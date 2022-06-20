@@ -1,10 +1,17 @@
 const mongoose = require("mongoose");
+const URLSlug = require("mongoose-slug-generator");
 
 const plantSchema = new mongoose.Schema(
   {
     title: {
       type: String,
       required: true,
+    },
+    slug: {
+      type: String,
+      required: true,
+      slug: "title",
+      unique: true,
     },
     keyImage: {
       type: Number,
@@ -54,4 +61,7 @@ const plantSchema = new mongoose.Schema(
   },
   { timestamps: true }
 );
+
+mongoose.plugin(URLSlug);
+
 module.exports = mongoose.models.Plant || mongoose.model("Plant", plantSchema);

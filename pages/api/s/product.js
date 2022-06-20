@@ -1,12 +1,11 @@
 import connectDB from "../../../utils/connectDB";
 import Plant from "../../../models/plant.model";
 import errorResponse from "../../../utils/errorResponse";
+import { isAuthenticated } from "../../../middlewares/auth";
 
 import fs from "fs";
-import path from "path"; //for location
 
 import multiparty from "multiparty"; //for parsing
-import multer from "multer"; //for file fetching, saving
 
 connectDB();
 
@@ -16,7 +15,7 @@ async function saveImages(images, title) {
     images.forEach((img) => {
       const data = img.replace(/^data:image\/\w+;base64,/, "");
       const ext = img.split(";base64")[0].replace("data:image/", "");
-      const name = title.replace(/\s+/, "_").slice(0, 10);
+      const name = title.replace(/\s+/, "_").slice(0, 20);
       const buf = Buffer.from(data, "base64");
 
       let saved = false,
@@ -42,13 +41,17 @@ async function saveImages(images, title) {
   });
 }
 
+function deleteImages(images) {
+  images.forEach((path) => fs.unlinkSync(`./public/assets${path}`));
+}
+
 function getRandomIntInclusive(min, max) {
   min = Math.ceil(min);
   max = Math.floor(max);
   return Math.floor(Math.random() * (max - min + 1) + min); //The maximum is inclusive and the minimum is inclusive
 }
 
-export default async function Index(req, res, next) {
+export default async function Index(req, res) {
   switch (req.method) {
     case "GET":
       //   await getTags(req, res);
@@ -66,20 +69,24 @@ export default async function Index(req, res, next) {
       // console.log(data);
       req.body = data.fields;
       // req.files = data.files;
-      await createPlant(req, res, next);
+      await createPlant(req, res);
       break;
     case "DELETE":
       break;
   }
 }
 
-async function createPlant(req, res, next) {
+async function createPlant(req, res) {
+  let reshaped = {
+    images: [],
+    // postedBy: req.,
+    avgRating: 0,
+  };
   try {
-    let reshaped = {
-      images: [],
-      postedBy: "62af2735d3d46023f4ef5d5a",
-      avgRating: 0,
-    };
+    const response = await isAuthenticated(req.headers["x-access-token"]);
+    // console.log("RESPONSE", response);
+    if (response.success) reshaped.postedBy = response.user._id;
+    else throw response;
     if (req.body.title?.length) reshaped.title = req.body.title[0];
     if (req.body.keyImage?.length) reshaped.keyImage = req.body.keyImage[0];
     if (req.body.description?.length)
@@ -92,8 +99,8 @@ async function createPlant(req, res, next) {
     if (req.body.tags.length == 0)
       throw { message: "At least One Tag is required" };
     reshaped.tags = req.body.tags;
+    reshaped.slug = reshaped.title;
     reshaped.images = await saveImages(req.body.images, reshaped.title);
-
     const plant = await Plant.create(reshaped);
 
     res.status(200).json({
@@ -103,6 +110,7 @@ async function createPlant(req, res, next) {
     });
   } catch (error) {
     //delete images now, as some error occured
+    deleteImages(reshaped.images);
     const response = errorResponse(error);
     console.log("Plant Add Error", error);
     res

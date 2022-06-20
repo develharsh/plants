@@ -9,7 +9,7 @@ const userSchema = new mongoose.Schema(
     phone: {
       type: String,
       required: true,
-      index: { unique: true },
+      unique: true,
     },
     password: {
       type: String,
@@ -64,7 +64,6 @@ userSchema.methods.getResetPasswordToken = function () {
 userSchema.path("phone").validate(function (phone) {
   return phoneNumber(phone);
 }, "Phone must be a 10 digit number");
-
 
 userSchema.path("password").validate(function (password) {
   return Password(password);

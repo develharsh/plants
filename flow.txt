@@ -1,4 +1,3 @@
-renovate add plants frontend, backend delete images when deleted, automate with user token, mongoose slug
 Get Products Page
 View Specific product
 Add to Cart

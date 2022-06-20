@@ -5,7 +5,7 @@
 }
 
 .addplantTile {
-  width: 32em;
+  width: 20em;
 }
 
 .addPlant_input_div {
@@ -23,11 +23,17 @@
   .addPlant_main_div {
     margin-top: 1em;
   }
+  .addplantTile {
+    width: 32em;
+  }
 }
 
 /*lap */
 @media (min-width: 80rem) {
   .addPlant_main_div {
     margin-top: 2em;
+  }
+  .addplantTile {
+    width: 32em;
   }
 }
