@@ -95,7 +95,7 @@ function Plant({ categories, tags }) {
       });
       dispatch({ type: ACTIONS.LOADING, payload: false });
       if (response.data.success) {
-        router.push("/s");
+        // router.push("/s");
         dispatch({
           type: ACTIONS.NOTIFY,
           payload: { bg: "success", message: response.data.message },
