@@ -1,28 +1,22 @@
-.login_main_div {
-  margin-top: 2em;
-  /* border: 1px solid slateblue; */
+.loginMainDiv {
+  /* border: 2px solid red; */
   align-items: center;
 }
 
-.login_tile {
-  width: 32em;
-}
-
-.login_input_div {
-  align-items: center;
-  /* height: 20em; */
+.loginTile {
+  width: 18em;
 }
 
 /* tab */
 @media (min-width: 40rem) {
-  .login_main_div {
-    margin-top: 1em;
+  .loginTile {
+    width: 20em;
   }
 }
 
 /*lap */
 @media (min-width: 80rem) {
-  .login_main_div {
-    margin-top: 2em;
+  .loginTile {
+    width: 32em;
   }
 }

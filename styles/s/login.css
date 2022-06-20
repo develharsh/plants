@@ -1,28 +1,22 @@
-.s_login_main_div {
-  margin-top: 2em;
-  /* border: 1px solid slateblue; */
+.sloginMainDiv {
+  /* border: 2px solid red; */
   align-items: center;
 }
 
-.s_login_tile {
-  width: 32em;
-}
-
-.s_login_input_div {
-  align-items: center;
-  /* height: 20em; */
+.sloginTile {
+  width: 18em;
 }
 
 /* tab */
 @media (min-width: 40rem) {
-  .s_login_main_div {
-    margin-top: 1em;
+  .sloginTile {
+    width: 20em;
   }
 }
 
 /*lap */
 @media (min-width: 80rem) {
-  .s_login_main_div {
-    margin-top: 2em;
+  .sloginTile {
+    width: 32em;
   }
 }

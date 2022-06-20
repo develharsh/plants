@@ -8,6 +8,10 @@ import { Redirect, deleteCookies } from "../../utils/hardcoded";
 import Loading from "../../components/design/Loading";
 import Link from "next/link";
 import { State, City } from "country-state-city";
+import { Dropdown } from "primereact/dropdown";
+import { InputText } from "primereact/inputtext";
+import { Password } from "primereact/password";
+import { Button } from "primereact/button";
 
 function Register() {
   const router = useRouter();
@@ -16,21 +20,29 @@ function Register() {
   const [cities, setCities] = useState([]);
   const [values, setValues] = useState({
     company: "",
+    stateLabel: null,
     state: "",
     city: "",
+    cityLabel: null,
     address: "",
     email: "",
     phone: "",
     password: "",
   });
   function handleSelect(value, key) {
-    if (value === "") return;
-    let newState = { ...values, [key]: value };
+    let newState = { ...values };
     if (key === "state") {
-      setCities(City.getCitiesOfState("IN", value));
+      newState.stateLabel = value;
+      newState.state = value.name;
+      setCities(City.getCitiesOfState("IN", value.isoCode));
       newState.city = "";
-      alert(`Selected State: ${value}`);
-    } else alert(`Selected City: ${value}`);
+      newState.cityLabel = null;
+      alert(`Selected State: ${value.name}`);
+    } else {
+      newState.city = value.name;
+      newState.cityLabel = value;
+      alert(`Selected City: ${value.name}`);
+    }
     setValues(newState);
   }
   function handleChange(e) {
@@ -39,6 +51,8 @@ function Register() {
   }
   async function handleSubmit() {
     dispatch({ type: ACTIONS.LOADING, payload: true });
+    delete values.stateLabel;
+    delete values.cityLabel;
     try {
       const response = await axios({
         method: "POST",
@@ -49,7 +63,7 @@ function Register() {
       const { success, token, message, user } = response.data;
       if (success && token && message && user) {
         cookie.set("token", token);
-        dispatch({ type: ACTIONS.NOTIFY, payload: { bg: "success", message } });
+        dispatch({ type: ACTIONS.NOTIFY, payload: ["success", message] });
         dispatch({ type: ACTIONS.AUTH, payload: user });
         router.push("/s");
       }
@@ -57,87 +71,137 @@ function Register() {
       dispatch({ type: ACTIONS.LOADING, payload: false });
       dispatch({
         type: ACTIONS.NOTIFY,
-        payload: { bg: "error", message: err.response.data.message },
+        payload: ["error", err.response.data.message],
       });
     }
   }
   return (
     <>
-      <div className="flex flex-wrap justify-evenly s_register_main_div">
+      <div className="sregisterMainDiv flex flex-wrap justify-content-evenly">
         <div>
-          <img className="s_register_tile" src="/signupBg.png" alt="" />
+          <img src="/signupBg.png" alt="" className="sregisterTile" />
         </div>
-        <div className="shadow-2xl rounded p-7 s_register_input_div">
-          <h1 className="mb-3 font-medium leading-tight text-2xl">
-            Registration
-          </h1>
-          <input
-            type="text"
-            className="my-3 form-control  block  w-full  px-3  py-1.5  text-base  font-normal  text-gray-700  bg-white bg-clip-padding  border border-solid border-gray-300  rounded  transition  ease-in-out
-            m-0
-            focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none
-          "
-            name="company"
-            value={values.company}
-            onChange={handleChange}
-            placeholder="*Name of Company/Business"
-          />
-          <States states={states} handleSelect={handleSelect} />
-          <Cities cities={cities} handleSelect={handleSelect} />
-          <input
-            type="text"
-            className="my-3 form-control  block  w-full  px-3  py-1.5  text-base  font-normal  text-gray-700  bg-white bg-clip-padding  border border-solid border-gray-300  rounded  transition  ease-in-out
-            m-0
-            focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none
-          "
-            name="address"
-            value={values.address}
-            onChange={handleChange}
-            placeholder="*Sector/Area/Plot..."
-          />
-          <input
-            type="email"
-            className="my-3 form-control  block  w-full  px-3  py-1.5  text-base  font-normal  text-gray-700  bg-white bg-clip-padding  border border-solid border-gray-300  rounded  transition  ease-in-out
-            m-0
-            focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none
-          "
-            name="email"
-            value={values.email}
-            onChange={handleChange}
-            placeholder="Email"
-          />
-          <input
-            type="tel"
-            className="my-3 form-control  block  w-full  px-3  py-1.5  text-base  font-normal  text-gray-700  bg-white bg-clip-padding  border border-solid border-gray-300  rounded  transition  ease-in-out
-            m-0
-            focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none
-          "
-            name="phone"
-            value={values.phone}
-            onChange={handleChange}
-            placeholder="*Phone"
-          />
-          <input
-            type="password"
-            className="my-3 form-control  block  w-full  px-3  py-1.5  text-base  font-normal  text-gray-700  bg-white bg-clip-padding  border border-solid border-gray-300  rounded  transition  ease-in-out
-            m-0
-            focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none
-          "
-            name="password"
-            value={values.password}
-            onChange={handleChange}
-            placeholder="*Password"
-          />
-          <div className="flex items-center">
-            <button
-              disabled={state?.loading}
-              onClick={handleSubmit}
-              className="mr-5 inline-block px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out"
-            >
-              Register
-            </button>
-            <Loading />
-            <Link href="login">Have an account?</Link>
+        <div className="flex align-items-center justify-content-center">
+          <div className="surface-card shadow-2 border-round sregisterCard">
+            <div className="text-center mb-3">
+              <div className="text-900 text-3xl font-medium mb-3">
+                Registration
+              </div>
+              <span className="text-600 font-medium line-height-3">
+                Already have an Account?
+              </span>
+              <Link href="/s/login">
+                <a className="font-medium no-underline ml-2 text-blue-500 cursor-pointer">
+                  Log In!
+                </a>
+              </Link>
+            </div>
+            <div>
+              <label
+                htmlFor="company"
+                className="block text-900 font-medium mb-2"
+              >
+                Name of Company/Business
+              </label>
+              <InputText
+                name="company"
+                value={values.company}
+                onChange={handleChange}
+                id="company"
+                type="text"
+                className="w-full mb-3"
+                placeholder="Required"
+              />
+              <div className="mb-3">
+                <States
+                  states={states}
+                  values={values}
+                  handleSelect={handleSelect}
+                />
+              </div>
+              <div className="mb-3">
+                <Cities
+                  cities={cities}
+                  values={values}
+                  handleSelect={handleSelect}
+                />
+              </div>
+              <label
+                htmlFor="address"
+                className="block text-900 font-medium mb-2"
+              >
+                Sector/Plot/Area
+              </label>
+              <InputText
+                name="address"
+                value={values.address}
+                onChange={handleChange}
+                id="address"
+                type="text"
+                className="w-full mb-3"
+                placeholder="Required"
+              />
+              <label
+                htmlFor="email"
+                className="block text-900 font-medium mb-2"
+              >
+                Email
+              </label>
+              <InputText
+                name="email"
+                value={values.email}
+                onChange={handleChange}
+                id="email"
+                type="email"
+                className="w-full mb-3"
+                placeholder="Optional"
+              />
+              <label
+                htmlFor="phone"
+                className="block text-900 font-medium mb-2"
+              >
+                Phone
+              </label>
+              <InputText
+                name="phone"
+                value={values.phone}
+                onChange={handleChange}
+                id="phone"
+                type="number"
+                className="w-full mb-3"
+                placeholder="Required"
+              />
+
+              <label
+                htmlFor="password"
+                className="block text-900 font-medium mb-2"
+              >
+                Password
+              </label>
+              <Password
+                id="password"
+                name="password"
+                value={values.password}
+                onChange={handleChange}
+                className="w-full"
+                feedback={false}
+                toggleMask
+                placeholder="Required"
+              />
+              {/* <InputText id="password" type="password" className="w-full mb-3" /> */}
+
+              <div className="flex align-items-center justify-content-between my-2">
+                <Loading />
+              </div>
+
+              <Button
+                disabled={state.loading}
+                onClick={handleSubmit}
+                label="Create an Account"
+                icon="pi pi-user"
+                className="w-full"
+              />
+            </div>
           </div>
         </div>
       </div>
@@ -145,67 +209,38 @@ function Register() {
   );
 }
 
-function States({ states, handleSelect }) {
+function States({ values, states, handleSelect }) {
+  // onChange={(e) => handleSelect(e.target.value, "state")}
   return (
-    <select
+    <Dropdown
+      value={values.stateLabel}
+      options={states}
       onChange={(e) => handleSelect(e.target.value, "state")}
-      name="state"
-      className="form-select appearance-none
-      block
-      w-full
-      px-3
-      py-1.5
-      text-base
-      font-normal
-      text-gray-700
-      bg-white bg-clip-padding bg-no-repeat
-      border border-solid border-gray-300
-      rounded
-      transition
-      ease-in-out
-      my-3
-      focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
-      aria-label="Default select example"
-    >
-      <option value="">*State</option>
-      {states.map((each, idx) => (
-        <option key={idx} value={each.isoCode}>
-          {each.name}
-        </option>
-      ))}
-    </select>
+      optionLabel="name"
+      filter
+      filterBy="name"
+      placeholder="Select a State"
+      // valueTemplate={selectedCountryTemplate}
+      // itemTemplate={countryOptionTemplate}
+      className="w-full"
+    />
   );
 }
 
-function Cities({ cities, handleSelect }) {
+function Cities({ values, cities, handleSelect }) {
   return (
-    <select
+    <Dropdown
+      value={values.cityLabel}
+      options={cities}
       onChange={(e) => handleSelect(e.target.value, "city")}
-      name="city"
-      className="form-select appearance-none
-      block
-      w-full
-      px-3
-      py-1.5
-      text-base
-      font-normal
-      text-gray-700
-      bg-white bg-clip-padding bg-no-repeat
-      border border-solid border-gray-300
-      rounded
-      transition
-      ease-in-out
-      my-3
-      focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
-      aria-label="Default select example"
-    >
-      <option value="">*City</option>
-      {cities.map((each, idx) => (
-        <option key={idx} value={each.name}>
-          {each.name}
-        </option>
-      ))}
-    </select>
+      optionLabel="name"
+      filter
+      filterBy="name"
+      placeholder="Select a City"
+      // valueTemplate={selectedCountryTemplate}
+      // itemTemplate={countryOptionTemplate}
+      className="w-full"
+    />
   );
 }
 

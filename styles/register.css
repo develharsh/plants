@@ -1,28 +1,22 @@
-.register_main_div {
-  margin-top: 2em;
-  /* border: 1px solid slateblue; */
+.registerMainDiv {
+  /* border: 2px solid red; */
   align-items: center;
 }
 
-.register_tile {
-  width: 32em;
-}
-
-.register_input_div {
-  align-items: center;
-  /* height: 20em; */
+.registerTile {
+  width: 18em;
 }
 
 /* tab */
 @media (min-width: 40rem) {
-  .register_main_div {
-    margin-top: 1em;
+  .registerTile {
+    width: 20em;
   }
 }
 
 /*lap */
 @media (min-width: 80rem) {
-  .register_main_div {
-    margin-top: 2em;
+  .registerTile {
+    width: 32em;
   }
 }

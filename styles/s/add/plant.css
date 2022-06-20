@@ -5,12 +5,14 @@
 }
 
 .addplantTile {
-  width: 20em;
+  width: 18em;
 }
 
 .addPlant_input_div {
   align-items: center;
   /* height: 20em; */
+  width: 19em;
+  /* border: 1px solid red; */
 }
 
 .addPlantPreviewImg {
@@ -24,7 +26,10 @@
     margin-top: 1em;
   }
   .addplantTile {
-    width: 32em;
+    width: 20em;
+  }
+  .addPlant_input_div {
+    width: 20em;
   }
 }
 
@@ -35,5 +40,8 @@
   }
   .addplantTile {
     width: 32em;
+  }
+  .addPlant_input_div {
+    width: 25em;
   }
 }

@@ -1,4 +1,3 @@
-Upload Image on digital ocean spaces
 Get Products Page
 View Specific product
 Add to Cart

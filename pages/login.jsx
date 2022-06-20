@@ -7,6 +7,9 @@ import { useRouter } from "next/router";
 import { Redirect, deleteCookies } from "../utils/hardcoded";
 import Loading from "../components/design/Loading";
 import Link from "next/link";
+import { Button } from "primereact/button";
+import { InputText } from "primereact/inputtext";
+import { Password } from "primereact/password";
 
 function Login() {
   const router = useRouter();
@@ -35,7 +38,7 @@ function Login() {
       const { success, token, message, user } = response.data;
       if (success && token && message && user) {
         cookie.set("token", token);
-        dispatch({ type: ACTIONS.NOTIFY, payload: { bg: "success", message } });
+        dispatch({ type: ACTIONS.NOTIFY, payload: ["success", message] });
         dispatch({ type: ACTIONS.AUTH, payload: user });
         router.push("/");
       }
@@ -43,50 +46,80 @@ function Login() {
       dispatch({ type: ACTIONS.LOADING, payload: false });
       dispatch({
         type: ACTIONS.NOTIFY,
-        payload: { bg: "error", message: err.response.data.message },
+        payload: ["error", err.response.data.message],
       });
     }
   }
   return (
     <>
-      <div className="flex flex-wrap justify-evenly login_main_div">
+      <div className="loginMainDiv flex flex-wrap justify-content-evenly">
         <div>
-          <img className="login_tile" src="loginBg.png" alt="" />
+          <img src="loginBg.png" alt="" className="loginTile" />
         </div>
-        <div className="shadow-2xl rounded p-7 login_input_div">
-          <h1 className="mb-3 font-medium leading-tight text-2xl">Log In</h1>
-          <input
-            type="text"
-            className="mb-3 form-control  block  w-full  px-3  py-1.5  text-base  font-normal  text-gray-700  bg-white bg-clip-padding  border border-solid border-gray-300  rounded  transition  ease-in-out
-            m-0
-            focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none
-          "
-            name="phone"
-            value={values.phone}
-            onChange={handleChange}
-            placeholder="Phone"
-          />
-          <input
-            type="password"
-            className="my-3 form-control  block  w-full  px-3  py-1.5  text-base  font-normal  text-gray-700  bg-white bg-clip-padding  border border-solid border-gray-300  rounded  transition  ease-in-out
-            m-0
-            focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none
-          "
-            name="password"
-            value={values.password}
-            onChange={handleChange}
-            placeholder="Password"
-          />
-          <div className="flex items-center">
-            <button
-              disabled={state?.loading}
-              onClick={handleSubmit}
-              className="mr-5 inline-block px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out"
-            >
-              Log In
-            </button>
-            <Loading />
-            <Link href="/register">New User?</Link>
+        <div className="flex align-items-center justify-content-center">
+          <div className="surface-card p-4 shadow-2 border-round">
+            <div className="text-center mb-5">
+              <img src="loginBg.png" alt="hyper" height={50} className="mb-3" />
+              <div className="text-900 text-3xl font-medium mb-3">Log In</div>
+              <span className="text-600 font-medium line-height-3">
+                Don't have an account?
+              </span>
+              <Link href="/register">
+                <a className="font-medium no-underline ml-2 text-blue-500 cursor-pointer">
+                  Create today!
+                </a>
+              </Link>
+            </div>
+            <div>
+              <label
+                htmlFor="phone"
+                className="block text-900 font-medium mb-2"
+              >
+                Phone
+              </label>
+              <InputText
+                name="phone"
+                value={values.phone}
+                onChange={handleChange}
+                id="phone"
+                type="number"
+                className="w-full mb-3"
+              />
+
+              <label
+                htmlFor="password"
+                className="block text-900 font-medium mb-2"
+              >
+                Password
+              </label>
+              <Password
+                id="password"
+                name="password"
+                value={values.password}
+                onChange={handleChange}
+                className="w-full mb-3"
+                feedback={false}
+                toggleMask
+              />
+              {/* <InputText id="password" type="password" className="w-full mb-3" /> */}
+
+              <div className="flex align-items-center justify-content-between mb-6">
+                <Loading />
+                <Link href="/forgot-password">
+                  <a className="font-medium no-underline ml-2 text-blue-500 text-right cursor-pointer">
+                    Forgot your password?
+                  </a>
+                </Link>
+              </div>
+
+              <Button
+                disabled={state.loading}
+                onClick={handleSubmit}
+                label="Sign In"
+                icon="pi pi-user"
+                className="w-full"
+              />
+            </div>
           </div>
         </div>
       </div>

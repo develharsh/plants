@@ -7,10 +7,14 @@ import { saveImages, deleteImages } from "../../../utils/s3";
 
 connectDB();
 
+function MapMyModel(key) {
+  return { plants: Plant }[key];
+}
+
 export default function Index(req, res) {
   switch (req.method) {
     case "GET":
-      //   await getTags(req, res);
+      getProduct(req, res);
       break;
     case "PUT":
       break;
@@ -28,6 +32,25 @@ export default function Index(req, res) {
       break;
     case "DELETE":
       break;
+  }
+}
+
+async function getProduct(req, res) {
+  try {
+    const { slug, kind } = req.query;
+    if (!slug) throw { message: "Slug is missing" };
+    if (!kind) throw { message: "Kind is missing" };
+    const model = MapMyModel(kind);
+    if (!model) throw { message: "kind is invalid" };
+    const product = await model.findOne({ slug });
+    if (!product) throw { message: "No such product was found" };
+    res.status(200).json({ success: true, product });
+  } catch (error) {
+    const response = errorResponse(error);
+    console.log("Get Product API Error", error);
+    res
+      .status(response.code)
+      .json({ success: false, message: response.message });
   }
 }
 
@@ -56,12 +79,12 @@ async function createPlant(req, res) {
     if (!req.body.tags) throw { message: "At least One Tag is required" };
     if (req.body.tags.length == 0)
       throw { message: "At least One Tag must be choosen" };
-
+    let images = [];
     if (typeof req.body.images === "string") {
       //single image
-      reshaped.images.push(req.body.images);
+      images.push(req.body.images);
     } else {
-      reshaped.images = req.body.images;
+      images = req.body.images;
     }
     if (typeof req.body.tags === "string") {
       //single image
@@ -72,11 +95,7 @@ async function createPlant(req, res) {
 
     reshaped.slug = reshaped.title;
 
-    reshaped.images = await saveImages(
-      req.body.images,
-      reshaped.title,
-      "plants"
-    );
+    reshaped.images = await saveImages(images, reshaped.title, "plants");
     const plant = await Plant.create(reshaped);
     // console.log("Reshaped", reshaped);
     // throw { message: "Dhuan" };

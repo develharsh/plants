@@ -9,7 +9,7 @@ function Index() {
 
   return (
     <>
-      <Link href="/s/add">Add Product</Link>
+      <Link href="/s/add/plant">Add Plant</Link>
     </>
   );
 }
