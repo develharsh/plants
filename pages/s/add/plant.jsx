@@ -249,7 +249,7 @@ function Plant({ categories, tags }) {
             value={values.productId}
             onChange={handleChange}
             id="productId"
-            type="number"
+            type="text"
             className="w-full mb-3"
             placeholder="Optional"
           />

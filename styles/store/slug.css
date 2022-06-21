@@ -1,23 +1,82 @@
+/*Common Begin*/
+.p-inputnumber-input {
+  width: 3rem !important;
+  height: 2rem !important;
+}
+.p-inputnumber-button {
+  height: 2rem !important;
+  border: 1px solid darkgray !important;
+}
+.prodSlugAddtoCartBtn {
+  width: 10rem;
+}
+.prodSlugImgActive {
+  border: 3px solid tomato;
+  padding: 1.5px;
+}
+/*Common End*/
+
 .prodSlugImg {
+  width: 19rem;
+}
+
+.prodSlugImgNavigate {
+  width: 6rem;
 }
 
 .prodSlugSpecsSide {
-  align-items: center;
+  align-items: center; /*general*/
+  /* border: 1px solid red; */
+  width: 19rem;
+  padding: 2em;
+}
+
+.prodSlugTitle {
+  font-family: "Charis SIL", serif;
+  font-size: 1.5rem;
+  text-align: center;
+}
+
+.prodSlugDesc {
+  font-family: "Roboto Mono", monospace;
+  font-size: 0.72rem;
+  color: rgb(53, 47, 47);
+  margin: 2rem auto 1rem auto;
+}
+
+.prodSlugPricing {
+  font-family: "Roboto", sans-serif;
+  text-align: center;
+}
+
+.prodSlugPricing :nth-child(1) {
+  margin-right: 1rem;
+  font-size: 2rem;
+}
+
+.prodSlugPricing :nth-child(2) {
+  margin-right: 1rem;
+  text-decoration: line-through;
+  font-size: 1.2rem;
+  color: rgb(53, 47, 47);
+}
+
+.prodSlugPricing :nth-child(3) {
+  font-size: 0.9rem;
 }
 
 /* tab */
 @media (min-width: 40rem) {
-}
-
-/*lap */
-@media (min-width: 80rem) {
   .prodSlugImg {
-    width: 30em;
+    width: 23rem;
+  }
+
+  .prodSlugImgNavigate {
+    width: 6rem;
   }
 
   .prodSlugSpecsSide {
-    width: 30em;
-    border: 1px solid red;
+    width: 22rem;
     padding: 2em;
   }
 
@@ -28,10 +87,60 @@
   }
 
   .prodSlugDesc {
-    font-family: "Mukta", sans-serif;
+    font-family: "Roboto Mono", monospace;
+    font-size: 0.72rem;
+    color: rgb(53, 47, 47);
+    margin: 2rem auto 1rem auto;
+  }
+
+  .prodSlugPricing {
+    font-family: "Roboto", sans-serif;
+    text-align: center;
+  }
+
+  .prodSlugPricing :nth-child(1) {
+    margin-right: 1rem;
+    font-size: 2rem;
+  }
+
+  .prodSlugPricing :nth-child(2) {
+    margin-right: 1rem;
+    text-decoration: line-through;
+    font-size: 1.2rem;
+    color: rgb(53, 47, 47);
+  }
+
+  .prodSlugPricing :nth-child(3) {
     font-size: 0.9rem;
-    color: gray;
-    margin: 2rem auto;
+  }
+}
+
+/*lap */
+@media (min-width: 80rem) {
+  .prodSlugImg {
+    width: 30em;
+  }
+
+  .prodSlugImgNavigate {
+    width: 6rem;
+  }
+
+  .prodSlugSpecsSide {
+    width: 30em;
+    padding: 2em;
+  }
+
+  .prodSlugTitle {
+    font-family: "Charis SIL", serif;
+    font-size: 1.5rem;
+    text-align: center;
+  }
+
+  .prodSlugDesc {
+    font-family: "Roboto Mono", monospace;
+    font-size: 0.72rem;
+    color: rgb(53, 47, 47);
+    margin: 2rem auto 1rem auto;
   }
 
   .prodSlugPricing {
