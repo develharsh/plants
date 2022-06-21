@@ -11,10 +11,10 @@ function MapMyModel(key) {
   return { plants: Plant }[key];
 }
 
-export default function Index(req, res) {
+export default async function Index(req, res) {
   switch (req.method) {
     case "GET":
-      getProduct(req, res);
+      await getProduct(req, res);
       break;
     case "PUT":
       break;
@@ -68,7 +68,8 @@ async function createPlant(req, res) {
     if (req.body.title) reshaped.title = req.body.title;
     if (req.body.keyImage) reshaped.keyImage = req.body.keyImage;
     if (req.body.description) reshaped.description = req.body.description;
-    if (req.body.inStock) reshaped.inStock = req.body.inStock;
+    if (req.body.inStock && parseInt(req.body.inStock) > 0)
+      reshaped.inStock = req.body.inStock;
     if (req.body.productId) reshaped.productId = req.body.productId;
     if (req.body.disCost) reshaped.disCost = req.body.disCost;
     if (req.body.cost) reshaped.cost = req.body.cost;

@@ -1,6 +1,8 @@
+Deadline: 19, 20, 21, 22 Evening for Testing
+
+Renovate Get Specific Product Design(without add to cart logic, only design)
 Get Products Page
-View Specific product
-Add to Cart
+Add to Cart 
 
 Cart
 Checkout with Payment Gateway and SMS to admins and supplier

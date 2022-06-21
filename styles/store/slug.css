@@ -1,0 +1,57 @@
+.prodSlugImg {
+}
+
+.prodSlugSpecsSide {
+  align-items: center;
+}
+
+/* tab */
+@media (min-width: 40rem) {
+}
+
+/*lap */
+@media (min-width: 80rem) {
+  .prodSlugImg {
+    width: 30em;
+  }
+
+  .prodSlugSpecsSide {
+    width: 30em;
+    border: 1px solid red;
+    padding: 2em;
+  }
+
+  .prodSlugTitle {
+    font-family: "Charis SIL", serif;
+    font-size: 1.5rem;
+    text-align: center;
+  }
+
+  .prodSlugDesc {
+    font-family: "Mukta", sans-serif;
+    font-size: 0.9rem;
+    color: gray;
+    margin: 2rem auto;
+  }
+
+  .prodSlugPricing {
+    font-family: "Roboto", sans-serif;
+    text-align: center;
+  }
+
+  .prodSlugPricing :nth-child(1) {
+    margin-right: 1rem;
+    font-size: 2rem;
+  }
+
+  .prodSlugPricing :nth-child(2) {
+    margin-right: 1rem;
+    text-decoration: line-through;
+    font-size: 1.2rem;
+    color: rgb(53, 47, 47);
+  }
+
+  .prodSlugPricing :nth-child(3) {
+    font-size: 0.9rem;
+  }
+}

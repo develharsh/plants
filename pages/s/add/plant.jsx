@@ -68,7 +68,8 @@ function Plant({ categories, tags }) {
     if (values.keyImage < 1 || images.length < values.keyImage)
       return "Main Image must be in the range 1-3";
     if (!values.description) return "Description is blank";
-    if (!values.inStock) return "In Stock is blank";
+    if (!values.inStock || values.inStock <= 0)
+      return "In Stock is blank or invalid";
     if (!values.cost) return "Cost without discount is blank";
     if (
       !values.disCost ||
