@@ -12,7 +12,7 @@ export const DataProvider = ({ children }) => {
   const { cart } = state;
 
   const validateSession = async () => {
-    dispatch({ type: ACTIONS.GLOBAL_LOADING, payload: true });
+    // dispatch({ type: ACTIONS.GLOBAL_LOADING, payload: true });
     const token = cookie.get("token");
     if (token) {
       try {
@@ -31,7 +31,7 @@ export const DataProvider = ({ children }) => {
         dispatch({ type: ACTIONS.AUTH, payload: null });
       }
     } else dispatch({ type: ACTIONS.AUTH, payload: null });
-    dispatch({ type: ACTIONS.GLOBAL_LOADING, payload: false });
+    // dispatch({ type: ACTIONS.GLOBAL_LOADING, payload: false });
   };
 
   useEffect(() => {

@@ -4,6 +4,7 @@ import errorResponse from "../../../utils/errorResponse";
 import { isAuthenticated } from "../../../middlewares/auth";
 import formidable from "formidable";
 import { saveImages, deleteImages } from "../../../utils/s3";
+import { get } from "../../../utils/aggregation";
 
 connectDB();
 
@@ -14,7 +15,14 @@ function MapMyModel(key) {
 export default async function Index(req, res) {
   switch (req.method) {
     case "GET":
-      await getProduct(req, res);
+      const Type = req.headers["type"];
+      if (Type == "get-by-slug") await getProduct(req, res);
+      else if (Type == "get-by-filters") await getByFilters(req, res);
+      else if (Type == "get-similar") await getProduct(req, res);
+      else
+        res
+          .status(500)
+          .json({ success: false, message: "Invalid Type in Headers" });
       break;
     case "PUT":
       break;
@@ -35,6 +43,55 @@ export default async function Index(req, res) {
   }
 }
 
+async function getByFilters(req, res) {
+  try {
+    let { keyword, category, tags, low, high, page, sortBy, exclude } =
+      req.query;
+    const { kind, type } = req.headers;
+    if (!kind) throw { message: "Kind is missing" };
+    if (page) {
+      page = Number(page);
+      if (isNaN(page)) page = 1;
+    } else page = 1;
+    page = Math.abs(page);
+    const productsPerPage = 10;
+    const query = get(
+      keyword,
+      category,
+      tags,
+      low,
+      high,
+      page,
+      sortBy,
+      productsPerPage,
+      type,
+      exclude
+    );
+    const Model = MapMyModel(kind);
+    if (!Model) throw { message: "kind is invalid" };
+    let products = await Model.aggregate(query),
+      response = { productsPerPage };
+    if (products.length) {
+      response.products = products[0].afterPaginate;
+      response.page = page;
+      response.noOfPages = Math.ceil(
+        parseFloat(products[0].beforePaginate.count) / productsPerPage
+      );
+    } else {
+      response.products = [];
+      response.page = page;
+      response.noOfPages = 0;
+    }
+    res.status(200).json({ success: true, data: response });
+  } catch (error) {
+    const response = errorResponse(error);
+    console.log("Get Product By Filter API Error", error);
+    res
+      .status(response.code)
+      .json({ success: false, message: response.message });
+  }
+}
+
 async function getProduct(req, res) {
   try {
     const { slug, kind } = req.query;
@@ -47,7 +104,7 @@ async function getProduct(req, res) {
     res.status(200).json({ success: true, product });
   } catch (error) {
     const response = errorResponse(error);
-    console.log("Get Product API Error", error);
+    console.log("Get Product By Slug API Error", error);
     res
       .status(response.code)
       .json({ success: false, message: response.message });

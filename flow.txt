@@ -1,7 +1,7 @@
 Deadline: 19, 20, 21, 22 Evening for Testing
 
-Renovate Get Specific Product Design(without add to cart logic, only design)
-Get Products Page
+Get Products Page Search Sort Filter Pagination
+Similar kind of specific product
 Add to Cart 
 
 Cart

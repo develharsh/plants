@@ -1,0 +1,70 @@
+/*Common Begin*/
+.prodCardTitle {
+  font-family: "Open Sans", sans-serif;
+  font-size: 1rem;
+}
+
+.prodCardPricing {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+.prodCardPricing :nth-child(1) {
+  /* color: rgb(148, 30, 172); */
+  font-size: 1.4rem;
+}
+
+.prodCardPricing :nth-child(2) {
+  color: tomato;
+  text-decoration: line-through;
+  font-size: 1.2rem;
+}
+
+.prodCardPricing :nth-child(3) {
+  color: rgb(77, 66, 66);
+  font-size: 1rem;
+}
+/*Common End*/
+
+.prodCardMainDiv {
+  width: 18rem;
+  text-align: center;
+  /* border: 1px solid red; */
+  /* curso-po */
+  text-decoration: none;
+  color: unset;
+}
+
+.prodCardImg {
+  margin-top: 0.25rem;
+  width: 17.5rem;
+  height: 20rem;
+  object-fit: cover;
+}
+
+/* tab */
+@media (min-width: 40rem) {
+  .prodCardMainDiv {
+    width: 13rem;
+  }
+
+  .prodCardImg {
+    width: 12.5rem;
+    height: 15rem;
+    /* object-fit: cover; */
+  }
+}
+
+/*lap */
+@media (min-width: 80rem) {
+  .prodCardMainDiv {
+    width: 15rem;
+  }
+
+  .prodCardImg {
+    width: 14.5rem;
+    height: 17rem;
+    /* object-fit: cover; */
+  }
+}

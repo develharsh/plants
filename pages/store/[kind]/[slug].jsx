@@ -36,7 +36,9 @@ function Store({ product }) {
           <p className="prodSlugPricing">
             <span>₹ {product.disCost}</span>
             <span>₹ {product.cost}</span>
-            <span>35% OFF</span>
+            <span>
+              {Math.ceil(100 - (product.disCost * 100) / product.cost)}% OFF
+            </span>
           </p>
           <div className="mt-3 mb-3 text-center">
             <Tag
@@ -125,15 +127,15 @@ function getTagValue(value) {
 }
 
 export async function getServerSideProps(context) {
-  const { req } = context;
-  const url = req.url.replace("/store/", "").split("/");
-  const kind = url[0],
-    slug = url[1];
+  const { kind, slug } = context.params;
   let product;
   try {
     const response = await axios({
       method: "GET",
       url: `${process.env.baseUrl}/api/product?kind=${kind}&slug=${slug}`,
+      headers: {
+        type: "get-by-slug",
+      },
     });
     product = response.data.product;
   } catch (err) {
