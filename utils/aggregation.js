@@ -13,7 +13,7 @@ exports.get = (
   exclude
 ) => {
   //
-  let matchObj = {},
+  let matchObj = { approved: { $ne: null } },
     sortObj = {};
   let pipeline = [{ $match: matchObj }];
   if (keyword) matchObj.title = { $regex: keyword, $options: "i" };

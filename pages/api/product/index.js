@@ -99,7 +99,7 @@ async function getProduct(req, res) {
     if (!kind) throw { message: "Kind is missing" };
     const model = MapMyModel(kind);
     if (!model) throw { message: "kind is invalid" };
-    const product = await model.findOne({ slug });
+    const product = await model.findOne({ slug, approved: { $ne: null } });
     if (!product) throw { message: "No such product was found" };
     res.status(200).json({ success: true, product });
   } catch (error) {

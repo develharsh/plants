@@ -4,18 +4,18 @@ import Footer from "./design/Footer";
 import GlobalLoading from "./design/GlobalLoading";
 import Toast from "./toast/toast";
 
-import { useContext } from "react";
-import { DataContext } from "../store/globalstate";
+// import { useContext } from "react";
+// import { DataContext } from "../store/globalstate";
 import Router from "next/router";
-import { ACTIONS } from "../store/actions";
+// import { ACTIONS } from "../store/actions";
 
 function layout({ children }) {
-  const { dispatch } = useContext(DataContext);
+  // const { dispatch } = useContext(DataContext);
   Router.events.on("routeChangeStart", (url) => {
-    dispatch({ type: ACTIONS.GLOBAL_LOADING, payload: true });
+    // dispatch({ type: ACTIONS.GLOBAL_LOADING, payload: true });
   });
   Router.events.on("routeChangeComplete", (url) => {
-    dispatch({ type: ACTIONS.GLOBAL_LOADING, payload: false });
+    // dispatch({ type: ACTIONS.GLOBAL_LOADING, payload: false });
   });
   return (
     <>

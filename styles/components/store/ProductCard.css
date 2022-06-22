@@ -16,7 +16,7 @@
 }
 
 .prodCardPricing :nth-child(2) {
-  color: tomato;
+  color: rgb(77, 66, 66);
   text-decoration: line-through;
   font-size: 1.2rem;
 }
